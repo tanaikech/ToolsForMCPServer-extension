@@ -4,7 +4,7 @@
 
 # ToolsForMCPServer-extension (ToolsForMCPServer as Gemini Extension)
 
-The nam of this MCP server is `tools-for-mcp-server-extension`. The base MCP server is from [https://github.com/tanaikech/ToolsForMCPServer](https://github.com/tanaikech/ToolsForMCPServer).
+The name of this MCP server is `tools-for-mcp-server-extension`. The base MCP server is from [https://github.com/tanaikech/ToolsForMCPServer](https://github.com/tanaikech/ToolsForMCPServer).
 
 <a name="abstract"></a>
 
