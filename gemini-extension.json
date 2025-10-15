@@ -1,0 +1,17 @@
+{
+  "name": "tools-for-mcp-server-extension",
+  "version": "1.0.0",
+  "contextFileName": "GEMINI.md",
+  "mcpServers": {
+    "tools-for-mcp-server-extension": {
+      "command": "node",
+      "args": [
+        "${extensionPath}${/}mcp-server${/}src${/}tools-for-mcp-server-extension.js"
+      ]
+    },
+    "workspace-developer": {
+      "httpUrl": "https://workspace-developer.goog/mcp",
+      "trust": true
+    }
+  }
+}
