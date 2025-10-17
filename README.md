@@ -96,6 +96,22 @@ When the Gemini CLI is opened, run the following command.
 
 When you can see the tools from the MCP server, the setup was finished.
 
+# Sample prompts
+
+The sample prompts using the tools of this MCP server are as follows.
+
+- [Gemini CLI with MCP Server: Expanding Possibilities with Google Apps Script](https://medium.com/google-cloud/gemini-cli-with-mcp-server-expanding-possibilities-with-google-apps-script-4626c661ac81)
+- [Gemini CLI: Featuring an Enhanced ToolsForMCPServer](https://medium.com/google-cloud/gemini-cli-featuring-an-enhanced-toolsformcpserver-7afaadfb5cfa)
+- [Next-Level Data Automation: Gemini CLI, Google Sheets, and MCP](https://medium.com/google-cloud/next-level-data-automation-gemini-cli-google-sheets-and-mcp-e6628a382e90)
+- [Managing Google Docs, Sheets, and Slides by Natural Language with Gemini CLI and MCP](https://medium.com/google-cloud/managing-google-docs-sheets-and-slides-by-natural-language-with-gemini-cli-and-mcp-62f4dfbef2d5)
+- [Next-Level Data Automation: Gemini CLI, Google Calendar, and MCP](https://medium.com/google-cloud/next-level-data-automation-gemini-cli-google-calendar-and-mcp-1b9e39e75f34)
+- [Enhanced Guide to Using Prompts in Gemini CLI](https://medium.com/google-cloud/enhanced-guide-to-using-prompts-in-the-gemini-cli-817cbce97e46)
+- [Next-Level Classroom Automation: Gemini CLI, Google Classroom, and MCP](https://medium.com/google-cloud/next-level-classroom-automation-gemini-cli-google-classroom-and-mcp-ac4bb9103fa6)
+- [Unifying Google Workspace with Natural Language: Integrated Collaboration through Gemini CLI and MCP](https://medium.com/google-cloud/unifying-google-workspace-with-natural-language-integrated-collaboration-through-gemini-cli-and-a40489ddf17e)
+- [Streamlining Web Page Insights with Natural Language using Gemini CLI, Google Analytics, and MCP](https://medium.com/google-cloud/streamlining-web-page-insights-with-natural-language-using-gemini-cli-google-analytics-and-mcp-1774d2b735b7)
+- [Google Maps with Natural Language: Integrated Collaboration through Gemini CLI and MCP](https://medium.com/google-cloud/google-maps-with-natural-language-integrated-collaboration-through-gemini-cli-and-mcp-07ba309593b3)
+- [Streamlining Content Creation: A Guide to Using Gemini CLI, MCP Server, and VSCode](https://medium.com/google-cloud/streamlining-content-creation-a-guide-to-using-gemini-cli-mcp-server-and-vscode-e623c42419f5)
+
 ---
 
 <a name="licence"></a>
