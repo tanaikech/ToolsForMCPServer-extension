@@ -2,7 +2,7 @@
   "name": "tools-for-mcp-server-extension",
   "version": "1.0.0",
   "description": "",
-  "main": "src/tools-for-mcp-server-extension.js",
+  "main": "mcp-server/src/tools-for-mcp-server-extension.js",
   "scripts": {},
   "keywords": [],
   "author": "tanaike",

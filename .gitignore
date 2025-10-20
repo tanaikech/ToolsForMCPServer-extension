@@ -1,4 +1,4 @@
 .env
 .gemini/
+node_modules/
 mcp-server/.env
-mcp-server/node_modules/
