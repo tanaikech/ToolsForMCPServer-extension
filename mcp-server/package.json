@@ -2,7 +2,7 @@
   "name": "tools-for-mcp-server-extension",
   "version": "1.0.0",
   "description": "",
-  "main": "mcp-server/src/tools-for-mcp-server-extension.js",
+  "main": "src/tools-for-mcp-server-extension.js",
   "scripts": {},
   "keywords": [],
   "author": "tanaike",
@@ -10,7 +10,6 @@
   "type": "module",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.20.0",
-    "package.json": "^2.0.1",
     "zod": "^3.25.76"
   }
 }
