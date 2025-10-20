@@ -26,12 +26,12 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: cd mcp-server && pnpm install
+        run: pnpm install
 
       - name: Create release assets
         run: |
           mkdir -p release
-          tar --exclude='./release' -czvf release/tools-for-mcp-server-extension.tar.gz .
+          tar --exclude='./release' -czvfh release/tools-for-mcp-server-extension.tar.gz .
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
