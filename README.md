@@ -136,4 +136,8 @@ The sample prompts using the tools of this MCP server are as follows.
 
   1. Initial release.
 
+- v1.0.1 (October 31, 2025)
+
+  1. `timeout` was added to `gemini-extension.json`.
+
 [TOP](#top)
