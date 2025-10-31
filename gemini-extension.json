@@ -1,6 +1,6 @@
 {
   "name": "tools-for-mcp-server-extension",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "contextFileName": "GEMINI.md",
   "mcpServers": {
     "tools-for-mcp-server-extension": {
