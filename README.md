@@ -140,4 +140,27 @@ The sample prompts using the tools of this MCP server are as follows.
 
   1. `timeout` was added to `gemini-extension.json`.
 
+- v1.2.0 (November 14, 2025)
+
+  1. The **MCP server "workspace-developer" was removed**. This was necessary because updating the Gemini CLI to v0.15.0 or v0.17.0-nightly.20251114.0fcbff506 caused the following errors:
+
+     ```
+     ✕ Error discovering tools from workspace-developer: can't resolve reference #/$defs/SearchResult from id #
+     ✕ Error during discovery for server 'workspace-developer': No prompts or tools found on the server.
+     ```
+
+  2. **The following 11 tools for managing [File Search](https://ai.google.dev/gemini-api/docs/file-search) were added.** The underlying script for these tools was created using Google Apps Script. [Ref](https://github.com/tanaikech/FileSearchApp)
+
+     - file_search_gas_create
+     - file_search_gas_documents_get
+     - file_search_gas_documents_list
+     - file_search_gas_documents_query
+     - file_search_gas_documents_remove
+     - file_search_gas_generate_content
+     - file_search_gas_get
+     - file_search_gas_import_file
+     - file_search_gas_list
+     - file_search_gas_media_upload
+     - file_search_gas_remove
+
 [TOP](#top)

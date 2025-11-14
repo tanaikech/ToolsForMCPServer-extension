@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 const geminiAPIKey = process.env.GEMINI_API_KEY || "";
+const geminiAPIModel = process.env.GEMINI_MODEL || "";
 const webAppsURL = process.env.MCP_WEB_APPS_URL || "";
 
 if (!webAppsURL) {
@@ -16,7 +17,7 @@ async function request_({ name, method, body }) {
       jsonrpc: "2.0",
       id: 1,
       method,
-      params: { name, arguments: { ...body, geminiAPIKey } },
+      params: { name, arguments: { ...body, geminiAPIKey, geminiAPIModel } },
     };
     const response = await fetch(webAppsURL, {
       method: "POST",
@@ -4928,6 +4929,413 @@ const tools_management_rag = [
   },
 ];
 
+const tools_management_filesearch = [
+  {
+    name: "file_search_gas_list",
+    schema: {
+      description: [
+        "Use this to get a list of file search stores.",
+        `When the MCP server "file-search-store-extension" is installed, use the tool "file_search_store_list" of "file-search-store-extension" as a priority.`,
+      ].join("\n"),
+      inputSchema: {},
+    },
+    func: async (object = {}) =>
+      await request_({
+        name: "file_search_gas_list",
+        method: "tools/call",
+        body: object,
+      }),
+  },
+  {
+    name: "file_search_gas_create",
+    schema: {
+      description: [
+        "Use this to create a new File Search Store.",
+        `When the MCP server "file-search-store-extension" is installed, use the tool "file_search_store_create" of "file-search-store-extension" as a priority.`,
+      ].join("\n"),
+      inputSchema: {
+        displayName: z.string().describe("The display name for the new store."),
+      },
+    },
+    func: async (object = {}) =>
+      await request_({
+        name: "file_search_gas_create",
+        method: "tools/call",
+        body: object,
+      }),
+  },
+  {
+    name: "file_search_gas_get",
+    schema: {
+      description: [
+        "Use this to get information about a specific File Search Store.",
+        `When the MCP server "file-search-store-extension" is installed, use the tool "file_search_store_get" of "file-search-store-extension" as a priority.`,
+      ].join("\n"),
+      inputSchema: {
+        fileSearchStoreName: z
+          .string()
+          .describe("The name of the store to retrieve."),
+      },
+    },
+    func: async (object = {}) =>
+      await request_({
+        name: "file_search_gas_get",
+        method: "tools/call",
+        body: object,
+      }),
+  },
+  {
+    name: "file_search_gas_remove",
+    schema: {
+      description: [
+        "Use this to delete a File Search Store.",
+        `When the MCP server "file-search-store-extension" is installed, use the tool "file_search_store_delete" of "file-search-store-extension" as a priority.`,
+      ].join("\n"),
+      inputSchema: {
+        fileSearchStoreName: z
+          .string()
+          .describe("The name of the store to delete."),
+      },
+    },
+    func: async (object = {}) =>
+      await request_({
+        name: "file_search_gas_remove",
+        method: "tools/call",
+        body: object,
+      }),
+  },
+  {
+    name: "file_search_gas_media_upload",
+    schema: {
+      description: [
+        "Use this to upload files from various sources on Google Drive and URLs to a File Search Store.",
+        `The sources are file IDs on Google Drive, folder ID on Google Drive, and URLs.`,
+        `When you want to upload a simple text, when "file-search-store-extension" is installed, use the tool "file_search_store_upload_media" of "file-search-store-extension" as a priority.`,
+        `You are required to provide "fileSearchStoreName". And, you can provide one of "text","fileIds","folderId","urls".`,
+      ].join("\n"),
+      inputSchema: {
+        fileSearchStoreName: z
+          .string()
+          .describe(
+            `The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should be a resource name ending with operations/{unique_id}. The data will be uploaded to this file search store. **As an important point, in this tool, it is required to provide "text" or "filePath".**`
+          ),
+        displayName: z
+          .string()
+          .describe(
+            `The display name for the uploaded document. Use this when you provide "text".`
+          )
+          .optional(),
+        text: z
+          .string()
+          .describe(
+            `The raw text data to upload. When you use this, you cannot use "fileIds", "folderId", and "urls".`
+          )
+          .optional(),
+        mimeType: z
+          .string()
+          .describe(
+            `MIME type of the data. If not provided, "text/plain" is used. Use this when you provide "text". When you use this, you cannot use "fileIds", "folderId", and "urls".`
+          )
+          .optional(),
+        fileIds: z
+          .array(
+            z
+              .string()
+              .describe(
+                `he folder ID of the folder on Google Drive. The files in the folder are uploaded. When you use this, you cannot use "text", "fileIds", and "urls".`
+              )
+          )
+          .describe("The file IDs of the files on Google Drive.")
+          .optional(),
+        folderId: z
+          .string()
+          .describe(
+            `The folder ID of the folder on Google Drive. The files in the folder are uploaded. When you use this, you cannot use "text", "fileIds", and "urls".`
+          )
+          .optional(),
+        urls: z
+          .array(z.string().describe("URL"))
+          .describe(
+            `URLs. When you use this, you cannot use "text", "folderId", and "fileIds".`
+          )
+          .optional(),
+        customMetadata: z
+          .array(
+            z.array(
+              z
+                .object({
+                  key: z.string().describe("The key of the metadata to store."),
+                  stringValue: z
+                    .string()
+                    .optional()
+                    .describe("The string value of the metadata to store."),
+                  numericValue: z
+                    .string()
+                    .optional()
+                    .describe("The numeric value of the metadata to store."),
+                })
+                .strict()
+            )
+          )
+          .describe(
+            "This is used for all files for file IDs, folder ID, URLs, text."
+          )
+          .optional(),
+        chunkingConfig: z
+          .array(
+            z
+              .object({
+                whiteSpaceConfig: z
+                  .object({
+                    maxTokensPerChunk: z
+                      .number()
+                      .describe("Maximum number of tokens per chunk."),
+                    maxOverlapTokens: z
+                      .number()
+                      .describe(
+                        "Maximum number of overlapping tokens between two adjacent chunks."
+                      ),
+                  })
+                  .strict()
+                  .describe("Configuration for chunking based on whitespace."),
+              })
+              .strict()
+          )
+          .describe(
+            "Config for telling the service how to chunk the data. If not provided, the service will use default parameters. This is used for all files for file IDs, folder ID, URLs, text."
+          )
+          .optional(),
+      },
+    },
+    func: async (object = {}) =>
+      await request_({
+        name: "file_search_gas_media_upload",
+        method: "tools/call",
+        body: object,
+      }),
+  },
+  {
+    name: "file_search_gas_import_file",
+    schema: {
+      description: [
+        "Use this to delete a File Search Store.",
+        `When the MCP server "file-search-store-extension" is installed, use the tool "file_search_store_import_file" of "file-search-store-extension" as a priority.`,
+      ].join("\n"),
+      inputSchema: {
+        fileSearchStoreName: z
+          .string()
+          .describe(
+            `Immutable. The name of the FileSearchStore to import the file into. Example: fileSearchStores/my-file-search-store-123 It takes the form fileSearchStores/{filesearchstore}.`
+          ),
+        customMetadata: z
+          .array(
+            z.array(
+              z
+                .object({
+                  key: z.string().describe("The key of the metadata to store."),
+                  stringValue: z
+                    .string()
+                    .optional()
+                    .describe("The string value of the metadata to store."),
+                  numericValue: z
+                    .string()
+                    .optional()
+                    .describe("The numeric value of the metadata to store."),
+                })
+                .strict()
+            )
+          )
+          .describe(
+            "This is used for all files for file IDs, folder ID, URLs, text."
+          )
+          .optional(),
+        chunkingConfig: z
+          .array(
+            z
+              .object({
+                whiteSpaceConfig: z
+                  .object({
+                    maxTokensPerChunk: z
+                      .number()
+                      .describe("Maximum number of tokens per chunk."),
+                    maxOverlapTokens: z
+                      .number()
+                      .describe(
+                        "Maximum number of overlapping tokens between two adjacent chunks."
+                      ),
+                  })
+                  .strict()
+                  .describe("Configuration for chunking based on whitespace."),
+              })
+              .strict()
+          )
+          .describe(
+            "Config for telling the service how to chunk the data. If not provided, the service will use default parameters. This is used for all files for file IDs, folder ID, URLs, text."
+          )
+          .optional(),
+      },
+    },
+    func: async (object = {}) =>
+      await request_({
+        name: "file_search_gas_import_file",
+        method: "tools/call",
+        body: object,
+      }),
+  },
+  {
+    name: "file_search_gas_documents_list",
+    schema: {
+      description: [
+        "Use this to list all Documents in a file search store.",
+        `When the MCP server "file-search-store-extension" is installed, use the tool "document_list" of "file-search-store-extension" as a priority.`,
+      ].join("\n"),
+      inputSchema: {
+        fileSearchStoreName: z
+          .string()
+          .describe(
+            "The name of the FileSearchStore containing Documents. Example: fileSearchStores/my-file-search-store-123 It takes the form fileSearchStores/{filesearchstore}."
+          ),
+      },
+    },
+    func: async (object = {}) =>
+      await request_({
+        name: "file_search_gas_documents_list",
+        method: "tools/call",
+        body: object,
+      }),
+  },
+  {
+    name: "file_search_gas_documents_remove",
+    schema: {
+      description: [
+        "Use this to delete a document.",
+        `When the MCP server "file-search-store-extension" is installed, use the tool "document_delete" of "file-search-store-extension" as a priority.`,
+      ].join("\n"),
+      inputSchema: {
+        documentName: z
+          .string()
+          .describe(
+            "The resource name of the Document to delete. Example: fileSearchStores/my-file-search-store-123/documents/the-doc-abc It takes the form fileSearchStores/{filesearchstore}/documents/{document}."
+          ),
+      },
+    },
+    func: async (object = {}) =>
+      await request_({
+        name: "file_search_gas_documents_remove",
+        method: "tools/call",
+        body: object,
+      }),
+  },
+  {
+    name: "file_search_gas_documents_get",
+    schema: {
+      description: [
+        "Use this to get information about a specific Document.",
+        `When the MCP server "file-search-store-extension" is installed, use the tool "document_get" of "file-search-store-extension" as a priority.`,
+      ].join("\n"),
+      inputSchema: {
+        documentName: z
+          .string()
+          .describe(
+            "The name of the Document to retrieve. Example: fileSearchStores/my-file-search-store-123/documents/the-doc-abc It takes the form fileSearchStores/{filesearchstore}/documents/{document}."
+          ),
+      },
+    },
+    func: async (object = {}) =>
+      await request_({
+        name: "file_search_gas_documents_get",
+        method: "tools/call",
+        body: object,
+      }),
+  },
+  {
+    name: "file_search_gas_documents_query",
+    schema: {
+      description: [
+        "Use this to prform semantic search over a Document.",
+        // `When the MCP server "file-search-store-extension" is installed, use the tool "###" of "file-search-store-extension" as a priority.`,
+      ].join("\n"),
+      inputSchema: {
+        name: z
+          .string()
+          .describe(
+            `The resource name of the document to search (e.g., 'fileSearchStores/my-store/documents/my-doc').`
+          ),
+        query: z.string().describe("The query to search for."),
+        resultsCount: z
+          .number()
+          .describe("The number of results to return.")
+          .optional(),
+        metadataFilters: z
+          .array(z.record(z.unknown()))
+          .describe(
+            [
+              `Filters to apply to the search. `,
+              `Filter for Chunk metadata. Each MetadataFilter object should correspond to a unique key. Multiple MetadataFilter objects are joined by logical "AND"s.`,
+              ``,
+              `Note: Document-level filtering is not supported for this request because a Document name is already specified.`,
+              ``,
+              `Example query: (year >= 2020 OR year < 2010) AND (genre = drama OR genre = action)`,
+              ``,
+              `MetadataFilter object list: metadataFilters = [ {key = "chunk.custom_metadata.year" conditions = [{int_value = 2020, operation = GREATER_EQUAL}, {int_value = 2010, operation = LESS}}, {key = "chunk.custom_metadata.genre" conditions = [{stringValue = "drama", operation = EQUAL}, {stringValue = "action", operation = EQUAL}}]`,
+              ``,
+              `Example query for a numeric range of values: (year > 2015 AND year <= 2020)`,
+              ``,
+              `MetadataFilter object list: metadataFilters = [ {key = "chunk.custom_metadata.year" conditions = [{int_value = 2015, operation = GREATER}]}, {key = "chunk.custom_metadata.year" conditions = [{int_value = 2020, operation = LESS_EQUAL}]}]`,
+              ``,
+              `Note: "AND"s for the same key are only supported for numeric values. String values only support "OR"s for the same key.`,
+            ].join("\n")
+          )
+          .optional(),
+      },
+    },
+    func: async (object = {}) =>
+      await request_({
+        name: "file_search_gas_documents_query",
+        method: "tools/call",
+        body: object,
+      }),
+  },
+  {
+    name: "file_search_gas_generate_content",
+    schema: {
+      description: [
+        "Use this to generate content using the file search stores with Gemini API.",
+        `When the MCP server "file-search-store-extension" is installed, use the tool "generate_content" of "file-search-store-extension" as a priority.`,
+      ].join("\n"),
+      inputSchema: {
+        fileSearchStoreNames: z
+          .array(
+            z
+              .string()
+              .describe(
+                "The names of the fileSearchStores to retrieve from. Example: fileSearchStores/my-file-search-store-123"
+              )
+          )
+          .optional()
+          .describe(
+            "An array including the names of the FileSearchStore containing Documents. When you want to generate content using the file search stores as Retrieval Augmented Generation (RAG), use this."
+          ),
+        prompt: z
+          .string()
+          .describe("The prompt for generating content using Gemini API."),
+        metadataFilter: z
+          .string()
+          .describe(
+            "Metadata filter to apply to the semantic retrieval documents and chunks. Ex. 'author=\"Robert Graves\"'"
+          )
+          .optional(),
+      },
+    },
+    func: async (object = {}) =>
+      await request_({
+        name: "file_search_gas_generate_content",
+        method: "tools/call",
+        body: object,
+      }),
+  },
+];
+
 const prompts_sample = [
   {
     name: "search_files_on_google_drive",
@@ -5009,6 +5417,7 @@ export const tools = [
   ...tools_management_maps,
   ...tools_use_gemini,
   ...tools_management_rag,
+  ...tools_management_filesearch,
 ];
 
 export const prompts = [...prompts_sample];
