@@ -111,6 +111,7 @@ The sample prompts using the tools of this MCP server are as follows.
 - [Streamlining Web Page Insights with Natural Language using Gemini CLI, Google Analytics, and MCP](https://medium.com/google-cloud/streamlining-web-page-insights-with-natural-language-using-gemini-cli-google-analytics-and-mcp-1774d2b735b7)
 - [Google Maps with Natural Language: Integrated Collaboration through Gemini CLI and MCP](https://medium.com/google-cloud/google-maps-with-natural-language-integrated-collaboration-through-gemini-cli-and-mcp-07ba309593b3)
 - [Streamlining Content Creation: A Guide to Using Gemini CLI, MCP Server, and VSCode](https://medium.com/google-cloud/streamlining-content-creation-a-guide-to-using-gemini-cli-mcp-server-and-vscode-e623c42419f5)
+- [From Data Silos to Unified RAG: Gemini CLI Extensions Unify Local and Google Workspace for a Powerful File Search](https://medium.com/google-cloud/from-data-silos-to-unified-rag-gemini-cli-extensions-unify-local-and-google-workspace-for-a-29bc94614603)
 
 ---
 
