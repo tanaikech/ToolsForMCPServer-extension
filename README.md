@@ -164,4 +164,8 @@ The sample prompts using the tools of this MCP server are as follows.
      - file_search_gas_media_upload
      - file_search_gas_remove
 
+- v1.2.1 (December 20, 2025)
+
+  1. Modified inputSchema built by Zod.
+
 [TOP](#top)

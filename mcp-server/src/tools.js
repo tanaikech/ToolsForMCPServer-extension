@@ -89,10 +89,8 @@ const tools_management_APIs = [
         `If you cannot know the location, decide the location using the timezone.`,
       ].join("\n"),
       inputSchema: {
-        latitude: z.number().describe("The latitude of the inputed location."),
-        longitude: z
-          .number()
-          .describe("The longitude of the inputed location."),
+        latitude: z.number().describe("The latitude of the input location."),
+        longitude: z.number().describe("The longitude of the input location."),
         timezone: z
           .string()
           .describe(
@@ -168,7 +166,8 @@ const tools_management_analytics = [
     schema: {
       description: `Use to retrieve a list of all Google Analytics accounts accessible by the current user. Each entry provides key details for the account and a summary of its properties, making it useful for discovering available data streams and managing permissions.`,
       inputSchema: {
-        queryParameters: z.object({}).passthrough(),
+        // queryParameters: z.object({}).passthrough(),
+        queryParameters: z.object({}).catchall(z.unknown()),
       },
     },
     func: async (object = {}) =>
@@ -212,7 +211,9 @@ const tools_management_analytics = [
             ),
         }),
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             `Create the request body for "Method: properties.runReport" of Google Analytics Data API. If you want to know how to create the request body, please check a tool "explanation_analytics_data_properties_runReport".`
           ),
@@ -238,7 +239,9 @@ const tools_management_analytics = [
             ),
         }),
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             `Create the request body for "Method: properties.runRealtimeReport" of Google Analytics Data API. If you want to know how to create the request body, please check a tool "explanation_analytics_data_properties_runRealtimeReport".`
           ),
@@ -534,7 +537,9 @@ const tools_management_docs = [
       description: `Use this to manage Google Docs using Docs API. Provide the request body for batchUpdate method. In order to retrieve the detailed information of the document, including the index and so on, it is required to use a tool "get_google_doc_object_using_docs_api".`,
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             `Create the request body for "Method: documents.batchUpdate" of Google Docs API. If you want to know how to create the request body, please check a tool "explanation_manage_google_docs_using_docs_api".`
           ),
@@ -1058,7 +1063,8 @@ const tools_management_forms = [
             "The title of the survey. If this is not provided, set the title by understanding the questions."
           ),
         itemList: z
-          .array(z.record(z.any()))
+          // .array(z.record(z.any()))
+          .array(z.object({}).catchall(z.unknown()))
           .describe(
             `Create "itemList" by understanding how to create "itemList" by calling a tool "explanation_generate_survey_with_google_forms".`
           ),
@@ -1083,7 +1089,8 @@ const tools_management_forms = [
             "The title of the quiz. If this is not provided, set the title by understanding the questions."
           ),
         itemList: z
-          .array(z.record(z.any()))
+          // .array(z.record(z.any()))
+          .array(z.object({}).catchall(z.unknown()))
           .describe(
             `Create "itemList" by understanding how to create "itemList" by calling a tool "explanation_generate_quiz_with_google_forms".`
           ),
@@ -1492,7 +1499,9 @@ const tools_management_sheets = [
       description: `Use this to update Google Sheets using the Sheets API. Provide the request body for the batchUpdate method. In order to retrieve the detailed information of the spreadsheet, including the sheet ID and so on, it is required to use a tool "get_google_sheet_object_using_sheets_api".`,
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             `Create the request body for "Method: spreadsheets.batchUpdate" of Google Sheets API. If you want to know how to create the request body, please check a tool "explanation_manage_google_sheets_using_sheets_api".`
           ),
@@ -1534,7 +1543,9 @@ const tools_management_sheets = [
       inputSchema: {
         requestBody: z.object({
           chart: z
-            .record(z.any())
+            // .record(z.any())
+            .object({})
+            .catchall(z.unknown())
             .describe(`The request body for creating a chart.`),
         }),
         pathParameters: z.object({
@@ -1558,7 +1569,9 @@ const tools_management_sheets = [
       inputSchema: {
         requestBody: z.object({
           chart: z
-            .record(z.any())
+            // .record(z.any())
+            .object({})
+            .catchall(z.unknown())
             .describe(`The request body for creating a chart.`),
         }),
         pathParameters: z.object({
@@ -1656,7 +1669,9 @@ const tools_management_slides = [
       description: `Use this to manage Google Slides using Slides API. Provide the request body for batchUpdate method. In order to retrieve the detailed information of the spreadsheet, including the object ID and so on, it is required to use a tool "get_google_slides_object_using_slides_api".`,
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             `Create the request body for "Method: documents.batchUpdate" of Google Docs API. If you want to know how to create the request body, please check a tool "explanation_manage_google_slides_using_slides_api".`
           ),
@@ -1739,7 +1754,9 @@ const tools_management_classroom = [
       ].join("\n"),
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             "A Course resource. Refer to the Google Classroom API documentation for the object's structure."
           ),
@@ -1758,7 +1775,9 @@ const tools_management_classroom = [
       description: `Use to update a course using the "courses.update" method of Google Classroom API.`,
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             "A Course resource. Refer to the Google Classroom API documentation for the object's structure."
           ),
@@ -1784,7 +1803,9 @@ const tools_management_classroom = [
       description: `Use to update one or more fields in a course using the "courses.patch" method of Google Classroom API.`,
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             "A Course resource. Refer to the Google Classroom API documentation for the object's structure."
           ),
@@ -2089,7 +2110,9 @@ const tools_management_classroom = [
       description: `Use to create course work using the "courses.courseWork.create" method of Google Classroom API.`,
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             "A CourseWork resource. Refer to the Google Classroom API documentation for the object's structure."
           ),
@@ -2115,7 +2138,9 @@ const tools_management_classroom = [
       description: `Use to update one or more fields of a course work using the "courses.courseWork.patch" method of Google Classroom API.`,
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             "A CourseWork resource. Refer to the Google Classroom API documentation for the object's structure."
           ),
@@ -2594,7 +2619,9 @@ const tools_management_classroom = [
           materials: z
             .array(
               z
-                .record(z.any())
+                // .record(z.any())
+                .object({})
+                .catchall(z.unknown())
                 .describe(
                   "Material attached to course work. This can be a drive file, a YouTube video, a link, or a form."
                 )
@@ -2616,7 +2643,8 @@ const tools_management_classroom = [
             .optional(),
           scheduledTime: z
             .string()
-            .datetime()
+            // .datetime()
+            .pipe(z.coerce.date())
             .describe(
               "Optional timestamp when this course work material is scheduled to be published."
             )
@@ -2682,7 +2710,9 @@ const tools_management_classroom = [
           materials: z
             .array(
               z
-                .record(z.any())
+                // .record(z.any())
+                .object({})
+                .catchall(z.unknown())
                 .describe(
                   "Material attached to course work. This can be a drive file, a YouTube video, a link, or a form."
                 )
@@ -2704,7 +2734,8 @@ const tools_management_classroom = [
             .optional(),
           scheduledTime: z
             .string()
-            .datetime()
+            // .datetime()
+            .pipe(z.coerce.date())
             .describe(
               "Optional timestamp when this course work material is scheduled to be published."
             )
@@ -2893,7 +2924,9 @@ const tools_management_classroom = [
               attachments: z
                 .array(
                   z
-                    .record(z.any())
+                    // .record(z.any())
+                    .object({})
+                    .catchall(z.unknown())
                     .describe(
                       "The file can be one of the following types: driveFile, youTubeVideo, link, or form."
                     )
@@ -3079,7 +3112,9 @@ const tools_management_classroom = [
       description: `Use to creates an announcement using the "courses.announcements.create" method of Google Classroom API.`,
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             "An Announcement resource. Refer to the Google Classroom API documentation for the object's structure."
           ),
@@ -3105,7 +3140,9 @@ const tools_management_classroom = [
       description: `Use to update one or more fields of an announcement using the "courses.announcements.patch" method of Google Classroom API.`,
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             "An Announcement resource. Refer to the Google Classroom API documentation for the object's structure."
           ),
@@ -3301,7 +3338,9 @@ const tools_management_classroom = [
               levels: z
                 .array(
                   z
-                    .record(z.any())
+                    // .record(z.any())
+                    .object({})
+                    .catchall(z.unknown())
                     .describe(
                       "A level of performance within a criterion. It has an ID, a title, a description, and optional points. The ID is assigned on creation. The title must be set if points are not. Points, if set, must be distinct across all levels within a single criterion, and 0 is considered distinct from no points."
                     )
@@ -3357,7 +3396,9 @@ const tools_management_classroom = [
               levels: z
                 .array(
                   z
-                    .record(z.any())
+                    // .record(z.any())
+                    .object({})
+                    .catchall(z.unknown())
                     .describe(
                       "A level of performance within a criterion. It has an ID, a title, a description, and optional points. The ID is assigned on creation. The title must be set if points are not. Points, if set, must be distinct across all levels within a single criterion, and 0 is considered distinct from no points."
                     )
@@ -3472,7 +3513,9 @@ const tools_management_classroom = [
       description: `Use to creates a topic using the "courses.topics.create" method of Google Classroom API.`,
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             "A Topic resource. Refer to the Google Classroom API documentation for the object's structure."
           ),
@@ -3498,7 +3541,9 @@ const tools_management_classroom = [
       description: `Use to update one or more fields of a topic using the "courses.topics.patch" method of Google Classroom API.`,
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             "A Topic resource. Refer to the Google Classroom API documentation for the object's structure."
           ),
@@ -3621,7 +3666,9 @@ const tools_management_classroom = [
       ].join("\n"),
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             "An Invitation resource. Refer to the Google Classroom API documentation for the object's structure."
           ),
@@ -3697,7 +3744,9 @@ const tools_management_classroom = [
       ].join("\n"),
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             "A Registration resource. Refer to the Google Classroom API documentation for the object's structure."
           ),
@@ -3802,7 +3851,9 @@ const tools_management_classroom = [
       description: `Use to creates a guardian invitation using the "courses.topics.create" method of Google Classroom API. Creates a guardian invitation, and sends an email to the guardian asking them to confirm that they are the student's guardian.`,
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             "A GuardianInvitation resource. Refer to the Google Classroom API documentation for the object's structure."
           ),
@@ -3826,7 +3877,9 @@ const tools_management_classroom = [
       description: `Use to modify a guardian invitation using the "userProfiles.guardianInvitations.patch" method of Google Classroom API. Currently, the only valid modification is to change the state from PENDING to COMPLETE. This has the effect of withdrawing the invitation.`,
       inputSchema: {
         requestBody: z
-          .record(z.any())
+          // .record(z.any())
+          .object({})
+          .catchall(z.unknown())
           .describe(
             "A GuardianInvitation resource. Refer to the Google Classroom API documentation for the object's structure."
           ),
@@ -5267,7 +5320,8 @@ const tools_management_filesearch = [
           .describe("The number of results to return.")
           .optional(),
         metadataFilters: z
-          .array(z.record(z.unknown()))
+          // .array(z.record(z.unknown()))
+          .array(z.object({}).catchall(z.unknown()))
           .describe(
             [
               `Filters to apply to the search. `,

@@ -9,7 +9,7 @@ import { tools, prompts } from "./tools.js";
 
 const server = new McpServer({
   name: "tools-for-mcp-server-extension",
-  version: "1.2.0",
+  version: "1.2.1",
 });
 
 if (tools.length > 0) {
